@@ -5,15 +5,22 @@ export function gql(strings, ...args) {
   });
   return str;
 }
-export const ProjectPartsFragmentDoc = gql`
-    fragment ProjectParts on Project {
+export const WorkPartsFragmentDoc = gql`
+    fragment WorkParts on Work {
   __typename
   title
   summary
-  heroImage
-  techStack
+  previewImage
   liveLink
   githubLink
+  year
+  role
+  techStack
+  gallery {
+    __typename
+    image
+    caption
+  }
   body
 }
     `;
@@ -23,7 +30,25 @@ export const ExperiencePartsFragmentDoc = gql`
   role
   company
   duration
+  location
   description
+}
+    `;
+export const HobbyPartsFragmentDoc = gql`
+    fragment HobbyParts on Hobby {
+  __typename
+  title
+  category
+  date
+  location
+  tagline
+  photos {
+    __typename
+    image
+    caption
+    rotation
+  }
+  body
 }
     `;
 export const ProfilePartsFragmentDoc = gql`
@@ -31,14 +56,24 @@ export const ProfilePartsFragmentDoc = gql`
   __typename
   name
   title
-  bio
+  shortBio
+  aboutParagraphs
   resumeLink
-  aiSystemPrompt
+  certifications {
+    __typename
+    name
+    issuer
+    date
+    image
+    credentialUrl
+    skills
+  }
+  aiBuddyPrompt
 }
     `;
-export const ProjectDocument = gql`
-    query project($relativePath: String!) {
-  project(relativePath: $relativePath) {
+export const WorkDocument = gql`
+    query work($relativePath: String!) {
+  work(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -51,13 +86,13 @@ export const ProjectDocument = gql`
       }
       id
     }
-    ...ProjectParts
+    ...WorkParts
   }
 }
-    ${ProjectPartsFragmentDoc}`;
-export const ProjectConnectionDocument = gql`
-    query projectConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ProjectFilter) {
-  projectConnection(
+    ${WorkPartsFragmentDoc}`;
+export const WorkConnectionDocument = gql`
+    query workConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: WorkFilter) {
+  workConnection(
     before: $before
     after: $after
     first: $first
@@ -87,12 +122,12 @@ export const ProjectConnectionDocument = gql`
           }
           id
         }
-        ...ProjectParts
+        ...WorkParts
       }
     }
   }
 }
-    ${ProjectPartsFragmentDoc}`;
+    ${WorkPartsFragmentDoc}`;
 export const ExperienceDocument = gql`
     query experience($relativePath: String!) {
   experience(relativePath: $relativePath) {
@@ -150,6 +185,63 @@ export const ExperienceConnectionDocument = gql`
   }
 }
     ${ExperiencePartsFragmentDoc}`;
+export const HobbyDocument = gql`
+    query hobby($relativePath: String!) {
+  hobby(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...HobbyParts
+  }
+}
+    ${HobbyPartsFragmentDoc}`;
+export const HobbyConnectionDocument = gql`
+    query hobbyConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: HobbyFilter) {
+  hobbyConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...HobbyParts
+      }
+    }
+  }
+}
+    ${HobbyPartsFragmentDoc}`;
 export const ProfileDocument = gql`
     query profile($relativePath: String!) {
   profile(relativePath: $relativePath) {
@@ -209,17 +301,23 @@ export const ProfileConnectionDocument = gql`
     ${ProfilePartsFragmentDoc}`;
 export function getSdk(requester) {
   return {
-    project(variables, options) {
-      return requester(ProjectDocument, variables, options);
+    work(variables, options) {
+      return requester(WorkDocument, variables, options);
     },
-    projectConnection(variables, options) {
-      return requester(ProjectConnectionDocument, variables, options);
+    workConnection(variables, options) {
+      return requester(WorkConnectionDocument, variables, options);
     },
     experience(variables, options) {
       return requester(ExperienceDocument, variables, options);
     },
     experienceConnection(variables, options) {
       return requester(ExperienceConnectionDocument, variables, options);
+    },
+    hobby(variables, options) {
+      return requester(HobbyDocument, variables, options);
+    },
+    hobbyConnection(variables, options) {
+      return requester(HobbyConnectionDocument, variables, options);
     },
     profile(variables, options) {
       return requester(ProfileDocument, variables, options);
@@ -249,7 +347,7 @@ const generateRequester = (client) => {
 export const ExperimentalGetTinaClient = () => getSdk(
   generateRequester(
     createClient({
-      url: "http://localhost:4001/graphql",
+      url: "https://content.tinajs.io/3.0/content/aec42b92-5ef2-4746-8bd4-e5c956165e48/github/main",
       queries
     })
   )

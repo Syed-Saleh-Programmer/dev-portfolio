@@ -1,11 +1,18 @@
-fragment ProjectParts on Project {
+fragment WorkParts on Work {
   __typename
   title
   summary
-  heroImage
-  techStack
+  previewImage
   liveLink
   githubLink
+  year
+  role
+  techStack
+  gallery {
+    __typename
+    image
+    caption
+  }
   body
 }
 
@@ -14,14 +21,41 @@ fragment ExperienceParts on Experience {
   role
   company
   duration
+  location
   description
+}
+
+fragment HobbyParts on Hobby {
+  __typename
+  title
+  category
+  date
+  location
+  tagline
+  photos {
+    __typename
+    image
+    caption
+    rotation
+  }
+  body
 }
 
 fragment ProfileParts on Profile {
   __typename
   name
   title
-  bio
+  shortBio
+  aboutParagraphs
   resumeLink
-  aiSystemPrompt
+  certifications {
+    __typename
+    name
+    issuer
+    date
+    image
+    credentialUrl
+    skills
+  }
+  aiBuddyPrompt
 }

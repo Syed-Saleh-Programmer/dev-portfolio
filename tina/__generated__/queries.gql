@@ -1,5 +1,5 @@
-query project($relativePath: String!) {
-  project(relativePath: $relativePath) {
+query work($relativePath: String!) {
+  work(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -12,12 +12,12 @@ query project($relativePath: String!) {
       }
       id
     }
-    ...ProjectParts
+    ...WorkParts
   }
 }
 
-query projectConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ProjectFilter) {
-  projectConnection(
+query workConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: WorkFilter) {
+  workConnection(
     before: $before
     after: $after
     first: $first
@@ -47,7 +47,7 @@ query projectConnection($before: String, $after: String, $first: Float, $last: F
           }
           id
         }
-        ...ProjectParts
+        ...WorkParts
       }
     }
   }
@@ -103,6 +103,61 @@ query experienceConnection($before: String, $after: String, $first: Float, $last
           id
         }
         ...ExperienceParts
+      }
+    }
+  }
+}
+
+query hobby($relativePath: String!) {
+  hobby(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...HobbyParts
+  }
+}
+
+query hobbyConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: HobbyFilter) {
+  hobbyConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...HobbyParts
       }
     }
   }

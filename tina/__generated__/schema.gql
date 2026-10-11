@@ -57,17 +57,20 @@ type Query {
   collections: [Collection!]!
   node(id: String): Node!
   document(collection: String, relativePath: String): DocumentNode!
-  project(relativePath: String): Project!
-  projectConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ProjectFilter): ProjectConnection!
+  work(relativePath: String): Work!
+  workConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: WorkFilter): WorkConnection!
   experience(relativePath: String): Experience!
   experienceConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ExperienceFilter): ExperienceConnection!
+  hobby(relativePath: String): Hobby!
+  hobbyConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: HobbyFilter): HobbyConnection!
   profile(relativePath: String): Profile!
   profileConnection(before: String, after: String, first: Float, last: Float, sort: String, filter: ProfileFilter): ProfileConnection!
 }
 
 input DocumentFilter {
-  project: ProjectFilter
+  work: WorkFilter
   experience: ExperienceFilter
+  hobby: HobbyFilter
   profile: ProfileFilter
 }
 
@@ -94,15 +97,23 @@ type Collection {
   documents(before: String, after: String, first: Float, last: Float, sort: String, filter: DocumentFilter, folder: String): DocumentConnection!
 }
 
-union DocumentNode = Project | Experience | Profile | Folder
+union DocumentNode = Work | Experience | Hobby | Profile | Folder
 
-type Project implements Node & Document {
+type WorkGallery {
+  image: String
+  caption: String
+}
+
+type Work implements Node & Document {
   title: String!
   summary: String!
-  heroImage: String
-  techStack: [String]
+  previewImage: String
   liveLink: String
   githubLink: String
+  year: String
+  role: String
+  techStack: [String]
+  gallery: [WorkGallery]
   body: RichText
   id: ID!
   _sys: SystemInfo!
@@ -123,37 +134,46 @@ input ImageFilter {
   in: [String]
 }
 
+input WorkGalleryFilter {
+  image: ImageFilter
+  caption: StringFilter
+}
+
 input RichTextFilter {
   startsWith: String
   eq: String
   exists: Boolean
 }
 
-input ProjectFilter {
+input WorkFilter {
   title: StringFilter
   summary: StringFilter
-  heroImage: ImageFilter
-  techStack: StringFilter
+  previewImage: ImageFilter
   liveLink: StringFilter
   githubLink: StringFilter
+  year: StringFilter
+  role: StringFilter
+  techStack: StringFilter
+  gallery: WorkGalleryFilter
   body: RichTextFilter
 }
 
-type ProjectConnectionEdges {
+type WorkConnectionEdges {
   cursor: String!
-  node: Project
+  node: Work
 }
 
-type ProjectConnection implements Connection {
+type WorkConnection implements Connection {
   pageInfo: PageInfo!
   totalCount: Float!
-  edges: [ProjectConnectionEdges]
+  edges: [WorkConnectionEdges]
 }
 
 type Experience implements Node & Document {
   role: String!
   company: String!
   duration: String!
+  location: String
   description: RichText
   id: ID!
   _sys: SystemInfo!
@@ -164,6 +184,7 @@ input ExperienceFilter {
   role: StringFilter
   company: StringFilter
   duration: StringFilter
+  location: StringFilter
   description: RichTextFilter
 }
 
@@ -178,23 +199,91 @@ type ExperienceConnection implements Connection {
   edges: [ExperienceConnectionEdges]
 }
 
-type Profile implements Node & Document {
-  name: String!
-  title: String
-  bio: String
-  resumeLink: String
-  aiSystemPrompt: String
+type HobbyPhotos {
+  image: String
+  caption: String
+  rotation: String
+}
+
+type Hobby implements Node & Document {
+  title: String!
+  category: String!
+  date: String
+  location: String
+  tagline: String
+  photos: [HobbyPhotos]
+  body: RichText
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
 }
 
+input HobbyPhotosFilter {
+  image: ImageFilter
+  caption: StringFilter
+  rotation: StringFilter
+}
+
+input HobbyFilter {
+  title: StringFilter
+  category: StringFilter
+  date: StringFilter
+  location: StringFilter
+  tagline: StringFilter
+  photos: HobbyPhotosFilter
+  body: RichTextFilter
+}
+
+type HobbyConnectionEdges {
+  cursor: String!
+  node: Hobby
+}
+
+type HobbyConnection implements Connection {
+  pageInfo: PageInfo!
+  totalCount: Float!
+  edges: [HobbyConnectionEdges]
+}
+
+type ProfileCertifications {
+  name: String!
+  issuer: String!
+  date: String
+  image: String
+  credentialUrl: String
+  skills: [String]
+}
+
+type Profile implements Node & Document {
+  name: String!
+  title: String
+  shortBio: String
+  aboutParagraphs: [String]
+  resumeLink: String
+  certifications: [ProfileCertifications]
+  aiBuddyPrompt: String
+  id: ID!
+  _sys: SystemInfo!
+  _values: JSON!
+}
+
+input ProfileCertificationsFilter {
+  name: StringFilter
+  issuer: StringFilter
+  date: StringFilter
+  image: ImageFilter
+  credentialUrl: StringFilter
+  skills: StringFilter
+}
+
 input ProfileFilter {
   name: StringFilter
   title: StringFilter
-  bio: StringFilter
+  shortBio: StringFilter
+  aboutParagraphs: StringFilter
   resumeLink: StringFilter
-  aiSystemPrompt: StringFilter
+  certifications: ProfileCertificationsFilter
+  aiBuddyPrompt: StringFilter
 }
 
 type ProfileConnectionEdges {
@@ -214,34 +303,46 @@ type Mutation {
   deleteDocument(collection: String, relativePath: String!): DocumentNode!
   createDocument(collection: String, relativePath: String!, params: DocumentMutation!): DocumentNode!
   createFolder(collection: String, relativePath: String!): DocumentNode!
-  updateProject(relativePath: String!, params: ProjectMutation!): Project!
-  createProject(relativePath: String!, params: ProjectMutation!): Project!
+  updateWork(relativePath: String!, params: WorkMutation!): Work!
+  createWork(relativePath: String!, params: WorkMutation!): Work!
   updateExperience(relativePath: String!, params: ExperienceMutation!): Experience!
   createExperience(relativePath: String!, params: ExperienceMutation!): Experience!
+  updateHobby(relativePath: String!, params: HobbyMutation!): Hobby!
+  createHobby(relativePath: String!, params: HobbyMutation!): Hobby!
   updateProfile(relativePath: String!, params: ProfileMutation!): Profile!
   createProfile(relativePath: String!, params: ProfileMutation!): Profile!
 }
 
 input DocumentUpdateMutation {
-  project: ProjectMutation
+  work: WorkMutation
   experience: ExperienceMutation
+  hobby: HobbyMutation
   profile: ProfileMutation
   relativePath: String
 }
 
 input DocumentMutation {
-  project: ProjectMutation
+  work: WorkMutation
   experience: ExperienceMutation
+  hobby: HobbyMutation
   profile: ProfileMutation
 }
 
-input ProjectMutation {
+input WorkGalleryMutation {
+  image: String
+  caption: String
+}
+
+input WorkMutation {
   title: String
   summary: String
-  heroImage: String
-  techStack: [String]
+  previewImage: String
   liveLink: String
   githubLink: String
+  year: String
+  role: String
+  techStack: [String]
+  gallery: [WorkGalleryMutation]
   body: RichText
 }
 
@@ -249,15 +350,43 @@ input ExperienceMutation {
   role: String
   company: String
   duration: String
+  location: String
   description: RichText
+}
+
+input HobbyPhotosMutation {
+  image: String
+  caption: String
+  rotation: String
+}
+
+input HobbyMutation {
+  title: String
+  category: String
+  date: String
+  location: String
+  tagline: String
+  photos: [HobbyPhotosMutation]
+  body: RichText
+}
+
+input ProfileCertificationsMutation {
+  name: String
+  issuer: String
+  date: String
+  image: String
+  credentialUrl: String
+  skills: [String]
 }
 
 input ProfileMutation {
   name: String
   title: String
-  bio: String
+  shortBio: String
+  aboutParagraphs: [String]
   resumeLink: String
-  aiSystemPrompt: String
+  certifications: [ProfileCertificationsMutation]
+  aiBuddyPrompt: String
 }
 
 schema {

@@ -84,10 +84,12 @@ export type Query = {
   collections: Array<Collection>;
   node: Node;
   document: DocumentNode;
-  project: Project;
-  projectConnection: ProjectConnection;
+  work: Work;
+  workConnection: WorkConnection;
   experience: Experience;
   experienceConnection: ExperienceConnection;
+  hobby: Hobby;
+  hobbyConnection: HobbyConnection;
   profile: Profile;
   profileConnection: ProfileConnection;
 };
@@ -114,18 +116,18 @@ export type QueryDocumentArgs = {
 };
 
 
-export type QueryProjectArgs = {
+export type QueryWorkArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
-export type QueryProjectConnectionArgs = {
+export type QueryWorkConnectionArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Float']['input']>;
   last?: InputMaybe<Scalars['Float']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<ProjectFilter>;
+  filter?: InputMaybe<WorkFilter>;
 };
 
 
@@ -144,6 +146,21 @@ export type QueryExperienceConnectionArgs = {
 };
 
 
+export type QueryHobbyArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryHobbyConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<HobbyFilter>;
+};
+
+
 export type QueryProfileArgs = {
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
@@ -159,8 +176,9 @@ export type QueryProfileConnectionArgs = {
 };
 
 export type DocumentFilter = {
-  project?: InputMaybe<ProjectFilter>;
+  work?: InputMaybe<WorkFilter>;
   experience?: InputMaybe<ExperienceFilter>;
+  hobby?: InputMaybe<HobbyFilter>;
   profile?: InputMaybe<ProfileFilter>;
 };
 
@@ -201,16 +219,25 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Project | Experience | Profile | Folder;
+export type DocumentNode = Work | Experience | Hobby | Profile | Folder;
 
-export type Project = Node & Document & {
-  __typename?: 'Project';
+export type WorkGallery = {
+  __typename?: 'WorkGallery';
+  image?: Maybe<Scalars['String']['output']>;
+  caption?: Maybe<Scalars['String']['output']>;
+};
+
+export type Work = Node & Document & {
+  __typename?: 'Work';
   title: Scalars['String']['output'];
   summary: Scalars['String']['output'];
-  heroImage?: Maybe<Scalars['String']['output']>;
-  techStack?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  previewImage?: Maybe<Scalars['String']['output']>;
   liveLink?: Maybe<Scalars['String']['output']>;
   githubLink?: Maybe<Scalars['String']['output']>;
+  year?: Maybe<Scalars['String']['output']>;
+  role?: Maybe<Scalars['String']['output']>;
+  techStack?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  gallery?: Maybe<Array<Maybe<WorkGallery>>>;
   body?: Maybe<Scalars['RichText']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -231,33 +258,41 @@ export type ImageFilter = {
   in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
+export type WorkGalleryFilter = {
+  image?: InputMaybe<ImageFilter>;
+  caption?: InputMaybe<StringFilter>;
+};
+
 export type RichTextFilter = {
   startsWith?: InputMaybe<Scalars['String']['input']>;
   eq?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-export type ProjectFilter = {
+export type WorkFilter = {
   title?: InputMaybe<StringFilter>;
   summary?: InputMaybe<StringFilter>;
-  heroImage?: InputMaybe<ImageFilter>;
-  techStack?: InputMaybe<StringFilter>;
+  previewImage?: InputMaybe<ImageFilter>;
   liveLink?: InputMaybe<StringFilter>;
   githubLink?: InputMaybe<StringFilter>;
+  year?: InputMaybe<StringFilter>;
+  role?: InputMaybe<StringFilter>;
+  techStack?: InputMaybe<StringFilter>;
+  gallery?: InputMaybe<WorkGalleryFilter>;
   body?: InputMaybe<RichTextFilter>;
 };
 
-export type ProjectConnectionEdges = {
-  __typename?: 'ProjectConnectionEdges';
+export type WorkConnectionEdges = {
+  __typename?: 'WorkConnectionEdges';
   cursor: Scalars['String']['output'];
-  node?: Maybe<Project>;
+  node?: Maybe<Work>;
 };
 
-export type ProjectConnection = Connection & {
-  __typename?: 'ProjectConnection';
+export type WorkConnection = Connection & {
+  __typename?: 'WorkConnection';
   pageInfo: PageInfo;
   totalCount: Scalars['Float']['output'];
-  edges?: Maybe<Array<Maybe<ProjectConnectionEdges>>>;
+  edges?: Maybe<Array<Maybe<WorkConnectionEdges>>>;
 };
 
 export type Experience = Node & Document & {
@@ -265,6 +300,7 @@ export type Experience = Node & Document & {
   role: Scalars['String']['output'];
   company: Scalars['String']['output'];
   duration: Scalars['String']['output'];
+  location?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['RichText']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
@@ -275,6 +311,7 @@ export type ExperienceFilter = {
   role?: InputMaybe<StringFilter>;
   company?: InputMaybe<StringFilter>;
   duration?: InputMaybe<StringFilter>;
+  location?: InputMaybe<StringFilter>;
   description?: InputMaybe<RichTextFilter>;
 };
 
@@ -291,24 +328,97 @@ export type ExperienceConnection = Connection & {
   edges?: Maybe<Array<Maybe<ExperienceConnectionEdges>>>;
 };
 
-export type Profile = Node & Document & {
-  __typename?: 'Profile';
-  name: Scalars['String']['output'];
-  title?: Maybe<Scalars['String']['output']>;
-  bio?: Maybe<Scalars['String']['output']>;
-  resumeLink?: Maybe<Scalars['String']['output']>;
-  aiSystemPrompt?: Maybe<Scalars['String']['output']>;
+export type HobbyPhotos = {
+  __typename?: 'HobbyPhotos';
+  image?: Maybe<Scalars['String']['output']>;
+  caption?: Maybe<Scalars['String']['output']>;
+  rotation?: Maybe<Scalars['String']['output']>;
+};
+
+export type Hobby = Node & Document & {
+  __typename?: 'Hobby';
+  title: Scalars['String']['output'];
+  category: Scalars['String']['output'];
+  date?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  tagline?: Maybe<Scalars['String']['output']>;
+  photos?: Maybe<Array<Maybe<HobbyPhotos>>>;
+  body?: Maybe<Scalars['RichText']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
 };
 
+export type HobbyPhotosFilter = {
+  image?: InputMaybe<ImageFilter>;
+  caption?: InputMaybe<StringFilter>;
+  rotation?: InputMaybe<StringFilter>;
+};
+
+export type HobbyFilter = {
+  title?: InputMaybe<StringFilter>;
+  category?: InputMaybe<StringFilter>;
+  date?: InputMaybe<StringFilter>;
+  location?: InputMaybe<StringFilter>;
+  tagline?: InputMaybe<StringFilter>;
+  photos?: InputMaybe<HobbyPhotosFilter>;
+  body?: InputMaybe<RichTextFilter>;
+};
+
+export type HobbyConnectionEdges = {
+  __typename?: 'HobbyConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Hobby>;
+};
+
+export type HobbyConnection = Connection & {
+  __typename?: 'HobbyConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<HobbyConnectionEdges>>>;
+};
+
+export type ProfileCertifications = {
+  __typename?: 'ProfileCertifications';
+  name: Scalars['String']['output'];
+  issuer: Scalars['String']['output'];
+  date?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  credentialUrl?: Maybe<Scalars['String']['output']>;
+  skills?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+};
+
+export type Profile = Node & Document & {
+  __typename?: 'Profile';
+  name: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
+  shortBio?: Maybe<Scalars['String']['output']>;
+  aboutParagraphs?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  resumeLink?: Maybe<Scalars['String']['output']>;
+  certifications?: Maybe<Array<Maybe<ProfileCertifications>>>;
+  aiBuddyPrompt?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ProfileCertificationsFilter = {
+  name?: InputMaybe<StringFilter>;
+  issuer?: InputMaybe<StringFilter>;
+  date?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+  credentialUrl?: InputMaybe<StringFilter>;
+  skills?: InputMaybe<StringFilter>;
+};
+
 export type ProfileFilter = {
   name?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
-  bio?: InputMaybe<StringFilter>;
+  shortBio?: InputMaybe<StringFilter>;
+  aboutParagraphs?: InputMaybe<StringFilter>;
   resumeLink?: InputMaybe<StringFilter>;
-  aiSystemPrompt?: InputMaybe<StringFilter>;
+  certifications?: InputMaybe<ProfileCertificationsFilter>;
+  aiBuddyPrompt?: InputMaybe<StringFilter>;
 };
 
 export type ProfileConnectionEdges = {
@@ -331,10 +441,12 @@ export type Mutation = {
   deleteDocument: DocumentNode;
   createDocument: DocumentNode;
   createFolder: DocumentNode;
-  updateProject: Project;
-  createProject: Project;
+  updateWork: Work;
+  createWork: Work;
   updateExperience: Experience;
   createExperience: Experience;
+  updateHobby: Hobby;
+  createHobby: Hobby;
   updateProfile: Profile;
   createProfile: Profile;
 };
@@ -373,15 +485,15 @@ export type MutationCreateFolderArgs = {
 };
 
 
-export type MutationUpdateProjectArgs = {
+export type MutationUpdateWorkArgs = {
   relativePath: Scalars['String']['input'];
-  params: ProjectMutation;
+  params: WorkMutation;
 };
 
 
-export type MutationCreateProjectArgs = {
+export type MutationCreateWorkArgs = {
   relativePath: Scalars['String']['input'];
-  params: ProjectMutation;
+  params: WorkMutation;
 };
 
 
@@ -397,6 +509,18 @@ export type MutationCreateExperienceArgs = {
 };
 
 
+export type MutationUpdateHobbyArgs = {
+  relativePath: Scalars['String']['input'];
+  params: HobbyMutation;
+};
+
+
+export type MutationCreateHobbyArgs = {
+  relativePath: Scalars['String']['input'];
+  params: HobbyMutation;
+};
+
+
 export type MutationUpdateProfileArgs = {
   relativePath: Scalars['String']['input'];
   params: ProfileMutation;
@@ -409,25 +533,35 @@ export type MutationCreateProfileArgs = {
 };
 
 export type DocumentUpdateMutation = {
-  project?: InputMaybe<ProjectMutation>;
+  work?: InputMaybe<WorkMutation>;
   experience?: InputMaybe<ExperienceMutation>;
+  hobby?: InputMaybe<HobbyMutation>;
   profile?: InputMaybe<ProfileMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DocumentMutation = {
-  project?: InputMaybe<ProjectMutation>;
+  work?: InputMaybe<WorkMutation>;
   experience?: InputMaybe<ExperienceMutation>;
+  hobby?: InputMaybe<HobbyMutation>;
   profile?: InputMaybe<ProfileMutation>;
 };
 
-export type ProjectMutation = {
+export type WorkGalleryMutation = {
+  image?: InputMaybe<Scalars['String']['input']>;
+  caption?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type WorkMutation = {
   title?: InputMaybe<Scalars['String']['input']>;
   summary?: InputMaybe<Scalars['String']['input']>;
-  heroImage?: InputMaybe<Scalars['String']['input']>;
-  techStack?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  previewImage?: InputMaybe<Scalars['String']['input']>;
   liveLink?: InputMaybe<Scalars['String']['input']>;
   githubLink?: InputMaybe<Scalars['String']['input']>;
+  year?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
+  techStack?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  gallery?: InputMaybe<Array<InputMaybe<WorkGalleryMutation>>>;
   body?: InputMaybe<Scalars['RichText']['input']>;
 };
 
@@ -435,15 +569,43 @@ export type ExperienceMutation = {
   role?: InputMaybe<Scalars['String']['input']>;
   company?: InputMaybe<Scalars['String']['input']>;
   duration?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['RichText']['input']>;
+};
+
+export type HobbyPhotosMutation = {
+  image?: InputMaybe<Scalars['String']['input']>;
+  caption?: InputMaybe<Scalars['String']['input']>;
+  rotation?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type HobbyMutation = {
+  title?: InputMaybe<Scalars['String']['input']>;
+  category?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  tagline?: InputMaybe<Scalars['String']['input']>;
+  photos?: InputMaybe<Array<InputMaybe<HobbyPhotosMutation>>>;
+  body?: InputMaybe<Scalars['RichText']['input']>;
+};
+
+export type ProfileCertificationsMutation = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  issuer?: InputMaybe<Scalars['String']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  credentialUrl?: InputMaybe<Scalars['String']['input']>;
+  skills?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type ProfileMutation = {
   name?: InputMaybe<Scalars['String']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
-  bio?: InputMaybe<Scalars['String']['input']>;
+  shortBio?: InputMaybe<Scalars['String']['input']>;
+  aboutParagraphs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   resumeLink?: InputMaybe<Scalars['String']['input']>;
-  aiSystemPrompt?: InputMaybe<Scalars['String']['input']>;
+  certifications?: InputMaybe<Array<InputMaybe<ProfileCertificationsMutation>>>;
+  aiBuddyPrompt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type StringFilter = {
@@ -460,19 +622,27 @@ export type ImageFilter = {
   in?: Array<string | null | undefined> | null | undefined;
 };
 
+export type WorkGalleryFilter = {
+  image?: ImageFilter | null | undefined;
+  caption?: StringFilter | null | undefined;
+};
+
 export type RichTextFilter = {
   startsWith?: string | null | undefined;
   eq?: string | null | undefined;
   exists?: boolean | null | undefined;
 };
 
-export type ProjectFilter = {
+export type WorkFilter = {
   title?: StringFilter | null | undefined;
   summary?: StringFilter | null | undefined;
-  heroImage?: ImageFilter | null | undefined;
-  techStack?: StringFilter | null | undefined;
+  previewImage?: ImageFilter | null | undefined;
   liveLink?: StringFilter | null | undefined;
   githubLink?: StringFilter | null | undefined;
+  year?: StringFilter | null | undefined;
+  role?: StringFilter | null | undefined;
+  techStack?: StringFilter | null | undefined;
+  gallery?: WorkGalleryFilter | null | undefined;
   body?: RichTextFilter | null | undefined;
 };
 
@@ -480,48 +650,78 @@ export type ExperienceFilter = {
   role?: StringFilter | null | undefined;
   company?: StringFilter | null | undefined;
   duration?: StringFilter | null | undefined;
+  location?: StringFilter | null | undefined;
   description?: RichTextFilter | null | undefined;
+};
+
+export type HobbyPhotosFilter = {
+  image?: ImageFilter | null | undefined;
+  caption?: StringFilter | null | undefined;
+  rotation?: StringFilter | null | undefined;
+};
+
+export type HobbyFilter = {
+  title?: StringFilter | null | undefined;
+  category?: StringFilter | null | undefined;
+  date?: StringFilter | null | undefined;
+  location?: StringFilter | null | undefined;
+  tagline?: StringFilter | null | undefined;
+  photos?: HobbyPhotosFilter | null | undefined;
+  body?: RichTextFilter | null | undefined;
+};
+
+export type ProfileCertificationsFilter = {
+  name?: StringFilter | null | undefined;
+  issuer?: StringFilter | null | undefined;
+  date?: StringFilter | null | undefined;
+  image?: ImageFilter | null | undefined;
+  credentialUrl?: StringFilter | null | undefined;
+  skills?: StringFilter | null | undefined;
 };
 
 export type ProfileFilter = {
   name?: StringFilter | null | undefined;
   title?: StringFilter | null | undefined;
-  bio?: StringFilter | null | undefined;
+  shortBio?: StringFilter | null | undefined;
+  aboutParagraphs?: StringFilter | null | undefined;
   resumeLink?: StringFilter | null | undefined;
-  aiSystemPrompt?: StringFilter | null | undefined;
+  certifications?: ProfileCertificationsFilter | null | undefined;
+  aiBuddyPrompt?: StringFilter | null | undefined;
 };
 
-export type ProjectPartsFragment = { __typename: 'Project', title: string, summary: string, heroImage: string | null, techStack: Array<string | null> | null, liveLink: string | null, githubLink: string | null, body: TinaMarkdownContent | null };
+export type WorkPartsFragment = { __typename: 'Work', title: string, summary: string, previewImage: string | null, liveLink: string | null, githubLink: string | null, year: string | null, role: string | null, techStack: Array<string | null> | null, body: TinaMarkdownContent | null, gallery: Array<{ __typename: 'WorkGallery', image: string | null, caption: string | null } | null> | null };
 
-export type ExperiencePartsFragment = { __typename: 'Experience', role: string, company: string, duration: string, description: TinaMarkdownContent | null };
+export type ExperiencePartsFragment = { __typename: 'Experience', role: string, company: string, duration: string, location: string | null, description: TinaMarkdownContent | null };
 
-export type ProfilePartsFragment = { __typename: 'Profile', name: string, title: string | null, bio: string | null, resumeLink: string | null, aiSystemPrompt: string | null };
+export type HobbyPartsFragment = { __typename: 'Hobby', title: string, category: string, date: string | null, location: string | null, tagline: string | null, body: TinaMarkdownContent | null, photos: Array<{ __typename: 'HobbyPhotos', image: string | null, caption: string | null, rotation: string | null } | null> | null };
 
-export type ProjectQueryVariables = Exact<{
+export type ProfilePartsFragment = { __typename: 'Profile', name: string, title: string | null, shortBio: string | null, aboutParagraphs: Array<string | null> | null, resumeLink: string | null, aiBuddyPrompt: string | null, certifications: Array<{ __typename: 'ProfileCertifications', name: string, issuer: string, date: string | null, image: string | null, credentialUrl: string | null, skills: Array<string | null> | null } | null> | null };
+
+export type WorkQueryVariables = Exact<{
   relativePath: string;
 }>;
 
 
-export type ProjectQuery = { project: { __typename: 'Project', id: string, title: string, summary: string, heroImage: string | null, techStack: Array<string | null> | null, liveLink: string | null, githubLink: string | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type WorkQuery = { work: { __typename: 'Work', id: string, title: string, summary: string, previewImage: string | null, liveLink: string | null, githubLink: string | null, year: string | null, role: string | null, techStack: Array<string | null> | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, gallery: Array<{ __typename: 'WorkGallery', image: string | null, caption: string | null } | null> | null } };
 
-export type ProjectConnectionQueryVariables = Exact<{
+export type WorkConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
   after?: string | null | undefined;
   first?: number | null | undefined;
   last?: number | null | undefined;
   sort?: string | null | undefined;
-  filter?: ProjectFilter | null | undefined;
+  filter?: WorkFilter | null | undefined;
 }>;
 
 
-export type ProjectConnectionQuery = { projectConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Project', id: string, title: string, summary: string, heroImage: string | null, techStack: Array<string | null> | null, liveLink: string | null, githubLink: string | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type WorkConnectionQuery = { workConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Work', id: string, title: string, summary: string, previewImage: string | null, liveLink: string | null, githubLink: string | null, year: string | null, role: string | null, techStack: Array<string | null> | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, gallery: Array<{ __typename: 'WorkGallery', image: string | null, caption: string | null } | null> | null } | null } | null> | null } };
 
 export type ExperienceQueryVariables = Exact<{
   relativePath: string;
 }>;
 
 
-export type ExperienceQuery = { experience: { __typename: 'Experience', id: string, role: string, company: string, duration: string, description: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ExperienceQuery = { experience: { __typename: 'Experience', id: string, role: string, company: string, duration: string, location: string | null, description: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ExperienceConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
@@ -533,14 +733,33 @@ export type ExperienceConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ExperienceConnectionQuery = { experienceConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Experience', id: string, role: string, company: string, duration: string, description: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ExperienceConnectionQuery = { experienceConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Experience', id: string, role: string, company: string, duration: string, location: string | null, description: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+
+export type HobbyQueryVariables = Exact<{
+  relativePath: string;
+}>;
+
+
+export type HobbyQuery = { hobby: { __typename: 'Hobby', id: string, title: string, category: string, date: string | null, location: string | null, tagline: string | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, photos: Array<{ __typename: 'HobbyPhotos', image: string | null, caption: string | null, rotation: string | null } | null> | null } };
+
+export type HobbyConnectionQueryVariables = Exact<{
+  before?: string | null | undefined;
+  after?: string | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
+  sort?: string | null | undefined;
+  filter?: HobbyFilter | null | undefined;
+}>;
+
+
+export type HobbyConnectionQuery = { hobbyConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Hobby', id: string, title: string, category: string, date: string | null, location: string | null, tagline: string | null, body: TinaMarkdownContent | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, photos: Array<{ __typename: 'HobbyPhotos', image: string | null, caption: string | null, rotation: string | null } | null> | null } | null } | null> | null } };
 
 export type ProfileQueryVariables = Exact<{
   relativePath: string;
 }>;
 
 
-export type ProfileQuery = { profile: { __typename: 'Profile', id: string, name: string, title: string | null, bio: string | null, resumeLink: string | null, aiSystemPrompt: string | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+export type ProfileQuery = { profile: { __typename: 'Profile', id: string, name: string, title: string | null, shortBio: string | null, aboutParagraphs: Array<string | null> | null, resumeLink: string | null, aiBuddyPrompt: string | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, certifications: Array<{ __typename: 'ProfileCertifications', name: string, issuer: string, date: string | null, image: string | null, credentialUrl: string | null, skills: Array<string | null> | null } | null> | null } };
 
 export type ProfileConnectionQueryVariables = Exact<{
   before?: string | null | undefined;
@@ -552,17 +771,24 @@ export type ProfileConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ProfileConnectionQuery = { profileConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Profile', id: string, name: string, title: string | null, bio: string | null, resumeLink: string | null, aiSystemPrompt: string | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+export type ProfileConnectionQuery = { profileConnection: { totalCount: number, pageInfo: { hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges: Array<{ cursor: string, node: { __typename: 'Profile', id: string, name: string, title: string | null, shortBio: string | null, aboutParagraphs: Array<string | null> | null, resumeLink: string | null, aiBuddyPrompt: string | null, _sys: { filename: string, basename: string, hasReferences: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, certifications: Array<{ __typename: 'ProfileCertifications', name: string, issuer: string, date: string | null, image: string | null, credentialUrl: string | null, skills: Array<string | null> | null } | null> | null } | null } | null> | null } };
 
-export const ProjectPartsFragmentDoc = gql`
-    fragment ProjectParts on Project {
+export const WorkPartsFragmentDoc = gql`
+    fragment WorkParts on Work {
   __typename
   title
   summary
-  heroImage
-  techStack
+  previewImage
   liveLink
   githubLink
+  year
+  role
+  techStack
+  gallery {
+    __typename
+    image
+    caption
+  }
   body
 }
     `;
@@ -572,7 +798,25 @@ export const ExperiencePartsFragmentDoc = gql`
   role
   company
   duration
+  location
   description
+}
+    `;
+export const HobbyPartsFragmentDoc = gql`
+    fragment HobbyParts on Hobby {
+  __typename
+  title
+  category
+  date
+  location
+  tagline
+  photos {
+    __typename
+    image
+    caption
+    rotation
+  }
+  body
 }
     `;
 export const ProfilePartsFragmentDoc = gql`
@@ -580,14 +824,24 @@ export const ProfilePartsFragmentDoc = gql`
   __typename
   name
   title
-  bio
+  shortBio
+  aboutParagraphs
   resumeLink
-  aiSystemPrompt
+  certifications {
+    __typename
+    name
+    issuer
+    date
+    image
+    credentialUrl
+    skills
+  }
+  aiBuddyPrompt
 }
     `;
-export const ProjectDocument = gql`
-    query project($relativePath: String!) {
-  project(relativePath: $relativePath) {
+export const WorkDocument = gql`
+    query work($relativePath: String!) {
+  work(relativePath: $relativePath) {
     ... on Document {
       _sys {
         filename
@@ -600,13 +854,13 @@ export const ProjectDocument = gql`
       }
       id
     }
-    ...ProjectParts
+    ...WorkParts
   }
 }
-    ${ProjectPartsFragmentDoc}`;
-export const ProjectConnectionDocument = gql`
-    query projectConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: ProjectFilter) {
-  projectConnection(
+    ${WorkPartsFragmentDoc}`;
+export const WorkConnectionDocument = gql`
+    query workConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: WorkFilter) {
+  workConnection(
     before: $before
     after: $after
     first: $first
@@ -636,12 +890,12 @@ export const ProjectConnectionDocument = gql`
           }
           id
         }
-        ...ProjectParts
+        ...WorkParts
       }
     }
   }
 }
-    ${ProjectPartsFragmentDoc}`;
+    ${WorkPartsFragmentDoc}`;
 export const ExperienceDocument = gql`
     query experience($relativePath: String!) {
   experience(relativePath: $relativePath) {
@@ -699,6 +953,63 @@ export const ExperienceConnectionDocument = gql`
   }
 }
     ${ExperiencePartsFragmentDoc}`;
+export const HobbyDocument = gql`
+    query hobby($relativePath: String!) {
+  hobby(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...HobbyParts
+  }
+}
+    ${HobbyPartsFragmentDoc}`;
+export const HobbyConnectionDocument = gql`
+    query hobbyConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: HobbyFilter) {
+  hobbyConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...HobbyParts
+      }
+    }
+  }
+}
+    ${HobbyPartsFragmentDoc}`;
 export const ProfileDocument = gql`
     query profile($relativePath: String!) {
   profile(relativePath: $relativePath) {
@@ -759,17 +1070,23 @@ export const ProfileConnectionDocument = gql`
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
-      project(variables: ProjectQueryVariables, options?: C): Promise<{data: ProjectQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ProjectQueryVariables, query: string}> {
-        return requester<{data: ProjectQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ProjectQueryVariables, query: string}, ProjectQueryVariables>(ProjectDocument, variables, options);
+      work(variables: WorkQueryVariables, options?: C): Promise<{data: WorkQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: WorkQueryVariables, query: string}> {
+        return requester<{data: WorkQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: WorkQueryVariables, query: string}, WorkQueryVariables>(WorkDocument, variables, options);
       },
-    projectConnection(variables?: ProjectConnectionQueryVariables, options?: C): Promise<{data: ProjectConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ProjectConnectionQueryVariables, query: string}> {
-        return requester<{data: ProjectConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ProjectConnectionQueryVariables, query: string}, ProjectConnectionQueryVariables>(ProjectConnectionDocument, variables, options);
+    workConnection(variables?: WorkConnectionQueryVariables, options?: C): Promise<{data: WorkConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: WorkConnectionQueryVariables, query: string}> {
+        return requester<{data: WorkConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: WorkConnectionQueryVariables, query: string}, WorkConnectionQueryVariables>(WorkConnectionDocument, variables, options);
       },
     experience(variables: ExperienceQueryVariables, options?: C): Promise<{data: ExperienceQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ExperienceQueryVariables, query: string}> {
         return requester<{data: ExperienceQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ExperienceQueryVariables, query: string}, ExperienceQueryVariables>(ExperienceDocument, variables, options);
       },
     experienceConnection(variables?: ExperienceConnectionQueryVariables, options?: C): Promise<{data: ExperienceConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ExperienceConnectionQueryVariables, query: string}> {
         return requester<{data: ExperienceConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ExperienceConnectionQueryVariables, query: string}, ExperienceConnectionQueryVariables>(ExperienceConnectionDocument, variables, options);
+      },
+    hobby(variables: HobbyQueryVariables, options?: C): Promise<{data: HobbyQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: HobbyQueryVariables, query: string}> {
+        return requester<{data: HobbyQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: HobbyQueryVariables, query: string}, HobbyQueryVariables>(HobbyDocument, variables, options);
+      },
+    hobbyConnection(variables?: HobbyConnectionQueryVariables, options?: C): Promise<{data: HobbyConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: HobbyConnectionQueryVariables, query: string}> {
+        return requester<{data: HobbyConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: HobbyConnectionQueryVariables, query: string}, HobbyConnectionQueryVariables>(HobbyConnectionDocument, variables, options);
       },
     profile(variables: ProfileQueryVariables, options?: C): Promise<{data: ProfileQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ProfileQueryVariables, query: string}> {
         return requester<{data: ProfileQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ProfileQueryVariables, query: string}, ProfileQueryVariables>(ProfileDocument, variables, options);
@@ -824,7 +1141,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/3.0/content/aec42b92-5ef2-4746-8bd4-e5c956165e48/github/main",
         queries,
       })
     )
