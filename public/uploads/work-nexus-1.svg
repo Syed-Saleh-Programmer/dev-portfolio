@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" rx="16" fill="#0C1318"/>
+  <rect x="2" y="2" width="796" height="496" rx="14" stroke="#1B2E3C" stroke-width="2"/>
+  <text x="60" y="80" fill="#E0F2FE" font-family="system-ui" font-size="20" font-weight="700">Nexus Core Event Engine</text>
+  <rect x="60" y="120" width="320" height="320" rx="12" fill="#132330" stroke="#1D364A"/>
+  <rect x="420" y="120" width="320" height="320" rx="12" fill="#132330" stroke="#1D364A"/>
+  <circle cx="220" cy="280" r="60" stroke="#38BDF8" stroke-width="3"/>
+  <text x="220" y="285" text-anchor="middle" fill="#38BDF8" font-family="monospace" font-size="16" font-weight="700">REDIS BUS</text>
+  <circle cx="580" cy="280" r="60" stroke="#2DD4BF" stroke-width="3"/>
+  <text x="580" y="285" text-anchor="middle" fill="#2DD4BF" font-family="monospace" font-size="16" font-weight="700">SUB-15MS</text>
+</svg>

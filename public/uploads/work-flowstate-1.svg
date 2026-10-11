@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none">
+  <rect width="800" height="500" rx="16" fill="#110E1B"/>
+  <rect x="2" y="2" width="796" height="496" rx="14" stroke="#281F3D" stroke-width="2"/>
+  <text x="60" y="80" fill="#E9D5FF" font-family="system-ui" font-size="20" font-weight="700">FlowState Voice &amp; Thought Capture</text>
+  <rect x="60" y="120" width="680" height="200" rx="12" fill="#1C142E" stroke="#3B2D5C"/>
+  <path d="M100 220 C 150 140, 200 300, 250 220 C 300 120, 350 320, 400 220 C 450 160, 500 280, 550 220 C 600 180, 650 260, 700 220" stroke="#C084FC" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <rect x="60" y="340" width="210" height="110" rx="10" fill="#1E1633" stroke="#372754"/>
+  <rect x="295" y="340" width="210" height="110" rx="10" fill="#1E1633" stroke="#372754"/>
+  <rect x="530" y="340" width="210" height="110" rx="10" fill="#1E1633" stroke="#372754"/>
+</svg>

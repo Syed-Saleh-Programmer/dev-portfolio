@@ -1,26 +1,161 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #060608;
+  --bg-card: #0c0c11;
+  --bg-card-hover: #12121a;
+  --bg-card-glass: rgba(12, 12, 18, 0.68);
+  --bg-card-glass-hover: rgba(18, 18, 27, 0.78);
+  --bg-subtle: #161622;
+  --border-subtle: #1e1e2b;
+  --border-hover: #333346;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-hover: rgba(255, 255, 255, 0.18);
+  --text-primary: #f4f4f6;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --card-spotlight: rgba(255, 255, 255, 0.05);
+  --font-serif: var(--font-newsreader);
+  --font-display: var(--font-space);
+}
+
+html.light {
+  --bg-primary: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f3f4f6;
+  --bg-card-glass: rgba(255, 255, 255, 0.74);
+  --bg-card-glass-hover: rgba(255, 255, 255, 0.86);
+  --bg-subtle: #eef0f3;
+  --border-subtle: #e2e4e9;
+  --border-hover: #cbd0d8;
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --border-glass-hover: rgba(0, 0, 0, 0.18);
+  --text-primary: #111216;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --card-spotlight: rgba(0, 0, 0, 0.035);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --color-bg-card-glass: var(--bg-card-glass);
+  --color-bg-card-glass-hover: var(--bg-card-glass-hover);
+  --color-bg-subtle: var(--bg-subtle);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-hover: var(--border-hover);
+  --color-border-glass: var(--border-glass);
+  --color-border-glass-hover: var(--border-glass-hover);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: var(--font-newsreader);
+  --font-display: var(--font-space);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.015em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom fonts helper classes */
+.font-serif {
+  font-family: var(--font-newsreader), Georgia, serif;
+}
+
+.font-display {
+  font-family: var(--font-space), var(--font-geist-sans), sans-serif;
+}
+
+/* Polaroid & Album style classes */
+.polaroid-card {
+  background: #ffffff;
+  padding: 12px 12px 28px 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.polaroid-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* Film tape effect */
+.tape-strip {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Animated SVG Glow Keyframes */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 140, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 140, 0.45);
+}
+
+/* Glassy Bento Card effect */
+.glass-bento-card {
+  background-color: var(--bg-card-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-glass);
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.38);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-bento-card:hover {
+  background-color: var(--bg-card-glass-hover);
+  border-color: var(--border-glass-hover);
+  box-shadow: 0 20px 42px -12px rgba(0, 0, 0, 0.52);
+}
+
+html.light .glass-bento-card {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06);
+}
+
+html.light .glass-bento-card:hover {
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.1);
 }

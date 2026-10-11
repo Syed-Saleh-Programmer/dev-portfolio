@@ -3,15 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "tinacms dev -c \"next dev\"",
+    "build": "tinacms build && next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/groq": "^4.0.55",
+    "@ai-sdk/openai": "^4.0.83",
+    "@ai-sdk/react": "^4.0.131",
+    "@tinacms/cli": "^4.0.0",
+    "ai": "^7.0.128",
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.0.0",
+    "lucide-react": "^1.52.0",
     "next": "16.3.8",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "slate": "^0.114.0",
+    "slate-dom": "^0.114.0",
+    "tailwind-merge": "^3.7.0",
+    "tinacms": "^3.14.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

@@ -1,0 +1,38 @@
+{
+  "name": "Syed Muhammad Saleh",
+  "title": "Software Engineer & Product Architect",
+  "shortBio": "Full-stack engineer crafting high-performance distributed architectures, sub-second generative AI systems, and tactile human interfaces.",
+  "aboutParagraphs": [
+    "I am an engineer and product builder driven by deep curiosity and software craftsmanship. My work lives at the intersection of resilient cloud infrastructure, high-concurrency systems, and fluid human-computer interaction.",
+    "I focus on taking complex ideas from initial architectural blueprints to reliable production deployments. Whether optimizing sub-200ms generative inference pipelines on modern accelerators or architecting local-first offline synchronization layers, I value speed, predictable performance, and intuitive usability.",
+    "When I am not writing code, you will find me wandering streets with a 35mm rangefinder, hand-soldering custom mechanical keyboards, or building prototype MVPs at weekend hackathons."
+  ],
+  "resumeLink": "https://linkedin.com",
+  "certifications": [
+    {
+      "name": "AWS Certified Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "date": "2024",
+      "image": "/uploads/cert-aws.svg",
+      "credentialUrl": "https://aws.amazon.com/verification",
+      "skills": ["Distributed Cloud", "Serverless Infrastructure", "High Availability", "VPC Security"]
+    },
+    {
+      "name": "Meta Certified Full-Stack Developer",
+      "issuer": "Meta",
+      "date": "2023",
+      "image": "/uploads/cert-meta.svg",
+      "credentialUrl": "https://coursera.org/verify",
+      "skills": ["React 19 & Next.js", "Full-Stack APIs", "Database Optimization", "Modern UI State"]
+    },
+    {
+      "name": "DeepLearning.AI Generative AI Specialist",
+      "issuer": "DeepLearning.AI",
+      "date": "2024",
+      "image": "/uploads/cert-ai.svg",
+      "credentialUrl": "https://deeplearning.ai",
+      "skills": ["LLM Orchestration", "Vector Embeddings", "Retrieval-Augmented Generation", "Groq Accelerator"]
+    }
+  ],
+  "aiBuddyPrompt": "You are Syed Muhammad Saleh's portfolio assistant representing Saleh directly to founders, recruiters, and engineers.\n\nCRITICAL RULES:\n1. STRICT ACCURACY: ONLY answer based on the verified facts provided in your knowledge context about Saleh. If a question is not covered in your knowledge context, state concisely: 'I don't have that information regarding Saleh.' NEVER invent, assume, extrapolate, or hallucinate details on your own.\n2. SHORT & WELL-FORMATTED: Keep your responses CONCISE, CRISP, and PUNCHY. Do NOT write long essays, giant multi-paragraph walls of text, or bloated lists. Limit answers to 2-4 concise bullet points or 1-2 brief paragraphs maximum.\n3. FORMATTING: Use clean, readable Markdown (bold key terms, bullet points).\n4. NAVIGATION REFERENCES: When recommending relevant projects or sections, include at most 1 or 2 clean reference tokens on their own line in this exact format:\n:::ref{title=\"Curiositora\" href=\"/works/curiositora\" type=\"Case Study\" desc=\"Sub-200ms adaptive learning platform MVP built with Next.js 15 & Supabase\"}:::\n:::ref{title=\"FlowState AI\" href=\"/works/ai-productivity-app\" type=\"Case Study\" desc=\"Voice and thought capture workspace built with Flutter & FastAPI\"}:::\n:::ref{title=\"About & Certifications\" href=\"/about\" type=\"Credentials\" desc=\"Saleh's full engineering story, leadership experience, and verified AWS/Meta certificates\"}:::\n:::ref{title=\"Photo Album & Hobbies\" href=\"/fun\" type=\"Photo Journal\" desc=\"Analog 35mm street photography, custom soldered keebs, and hackathons\"}:::\n:::ref{title=\"All Projects\" href=\"/works\" type=\"Portfolio\" desc=\"Explore all of Saleh's shipped engineering projects\"}:::"
+}

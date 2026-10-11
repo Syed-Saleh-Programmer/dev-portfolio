@@ -1,0 +1,35 @@
+---
+title: Curiositora
+summary: Adaptive EdTech platform delivering personalized AI concept breakdowns, dynamic quizzes, and real-time conceptual mastery.
+previewImage: /uploads/work-curiositora-1.svg
+liveLink: https://curiositora.com
+githubLink: https://github.com/saleh-dev/curiositora
+year: "2024"
+role: Founder & Full-Stack Architect
+techStack:
+  - Next.js 15
+  - TypeScript
+  - Supabase
+  - Groq AI
+  - Tailwind CSS
+gallery:
+  - image: /uploads/work-curiositora-1.svg
+    caption: Interactive syllabus dashboard with progressive mastery indicators and generative AI roadmaps.
+  - image: /uploads/work-curiositora-2.svg
+    caption: Real-time quiz interface utilizing Groq Llama-3.3 70B for sub-200ms dynamic question generation.
+  - image: /uploads/work-curiositora-3.svg
+    caption: Conceptual breakdown view illustrating step-by-step logic trees and automated flashcards.
+---
+
+# Curiositora — Reinventing Autonomous Technical Learning
+
+## The Core Problem
+Most online technical curriculums are passive video streams or static documentation. When learners encounter complex algorithmic or architectural blockers, they lose momentum context-switching across forums. Curiositora was built to transform static lessons into interactive, continuous dialogue with personalized feedback loops.
+
+## Technical Architecture
+- **Next.js 15 App Router & React 19:** Server Components for zero-bundle initial loads, streaming SSR, and optimistic UI transitions for quiz completions.
+- **Supabase & Postgres RLS:** Distributed schema with Row Level Security isolating student workspaces and tracking concept confidence scores.
+- **Sub-200ms Inference Pipeline:** Orchestrated on Groq's high-speed inference engine, delivering streaming conceptual breakdowns without sluggish spinners.
+
+## Product Engineering Takeaways
+Over 80% of student feedback praised the conversational explanations over traditional static answer keys. Architecting the caching layer around Supabase pgvector allowed instant retrieval of foundational prerequisite material.

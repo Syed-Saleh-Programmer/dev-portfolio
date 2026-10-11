@@ -1,0 +1,30 @@
+---
+title: Nexus Core Infrastructure
+summary: Event-driven backend boilerplate and WebSocket pub/sub fabric designed for ultra-low latency LLM multi-agent synchronization.
+previewImage: /uploads/work-nexus-1.svg
+liveLink: #
+githubLink: https://github.com/saleh-dev/nexus-core
+year: "2023 - 2024"
+role: Backend & Systems Engineer
+techStack:
+  - Node.js
+  - TypeScript
+  - Redis
+  - Docker
+  - WebSockets
+gallery:
+  - image: /uploads/work-nexus-1.svg
+    caption: Multi-node cluster telemetry dashboard visualizing concurrent token throughput and connection health.
+  - image: /uploads/work-nexus-2.svg
+    caption: Low-latency WebSocket benchmark showing sub-15ms message dispatch across distributed nodes.
+---
+
+# Nexus Core — Ultra-Low Latency Agentic Infrastructure
+
+## The Challenge
+Building reliable multi-agent systems requires coordination: tool calls, status notifications, cancellation tokens, and concurrent streaming buffers. Nexus Core was engineered to deliver predictable sub-20ms delivery guarantees under spike loads.
+
+## Architectural Design
+- **Redis Streams & Ephemeral Channels:** Decoupled event ingestion from worker execution pipelines.
+- **Backpressure & Connection Recovery:** Exponential backoff connection pooling with deterministic heartbeats.
+- **Observability:** Distributed OpenTelemetry tracing across all agent action boundaries.

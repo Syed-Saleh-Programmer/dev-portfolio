@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" fill="none">
+  <rect width="600" height="450" fill="#0A110D"/>
+  <rect x="50" y="50" width="500" height="350" rx="12" fill="#0F1F17" stroke="#1C382B" stroke-width="2"/>
+  <circle cx="100" cy="90" r="6" fill="#10B981"/>
+  <circle cx="120" cy="90" r="6" fill="#10B981" fill-opacity="0.4"/>
+  <circle cx="140" cy="90" r="6" fill="#10B981" fill-opacity="0.2"/>
+  <text x="300" y="210" text-anchor="middle" fill="#34D399" font-family="monospace" font-size="28" font-weight="800">04:32 AM BUILD</text>
+  <text x="300" y="250" text-anchor="middle" fill="#E2E8F0" font-family="system-ui" font-size="16" font-weight="600">48-Hour Sprint: 1st Place MVP</text>
+  <text x="300" y="290" text-anchor="middle" fill="#6EE7B7" font-family="monospace" font-size="12">12 Commits • Production Live on Vercel</text>
+</svg>

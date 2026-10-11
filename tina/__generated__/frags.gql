@@ -1,0 +1,27 @@
+fragment ProjectParts on Project {
+  __typename
+  title
+  summary
+  heroImage
+  techStack
+  liveLink
+  githubLink
+  body
+}
+
+fragment ExperienceParts on Experience {
+  __typename
+  role
+  company
+  duration
+  description
+}
+
+fragment ProfileParts on Profile {
+  __typename
+  name
+  title
+  bio
+  resumeLink
+  aiSystemPrompt
+}
